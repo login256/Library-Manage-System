@@ -1,36 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/plugins/login_css_js/style.css">
-    <script src="/static/plugins/login_css_js/jquery.js"></script>
-    <script src="/static/plugins/login_css_js/Particleground.js"></script>
-    <script src="/static/plugins/login_css_js/verificationNumbers.js"></script>
-    <style>
-        body {
-            height: 100%;
-            background: #16a085;
-            overflow: hidden;
-        }
-
-        canvas {
-            z-index: -1;
-            position: absolute;
-        }
-    </style>
-    <script>
-        $(document).ready(function () {
-            //粒子背景特效
-            $('body').particleground({
-                dotColor: '#5cbdaa',
-                lineColor: '#5cbdaa'
-            });
-
-        });
-    </script>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block mainbody %}
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -61,6 +30,4 @@
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 <p>{{ try_v }}</p>
-
-</body>
-</html>
+{% endblock mainbody %}
