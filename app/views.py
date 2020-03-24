@@ -4,6 +4,8 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
+from django.contrib import messages
+
 from django.utils import timezone
 
 from .models import *
@@ -51,16 +53,21 @@ def book_show(request, book_id):
 @login_required
 def borrow_book(request):
     if request.method == 'GET':
-        return HttpResponse(request.GET)
+        return render(request, 'borrow.html')
     elif request.method == 'POST':
-        if request.POST['id']:
+        if 'id' in request.POST:
+            if not request.POST['id']:
+                return render(request, 'borrow.html', {'errors': ['Empyt id!']})
             bookitem = get_object_or_404(BookItem, id=request.POST['id'])
-            if bookitem.status == 1:
+            if bookitem.status != 0:
+                #messages.error(request, 'Book has been borrowed!')
                 return render(request, 'borrow.html', {'errors': ['Book has been borrowed!']})
             bookitem.status = 1
+            bookitem.save()
             borrow = Borrow(bookitem=bookitem, user=request.user,
                             date_borrow=timezone.now(), fee=0)
             borrow.save()
-            redirect('/books/')
+            messages.success(request, 'Borrow Success!')
+            return redirect('/books/')
         else:
             raise Http404('Wrong POST!')

@@ -1,7 +1,15 @@
 {% include 'base.html' %}
 {% block mainbody %}
 <div class="container">
-<div class="row">
+<div class="row  justify-content-center">
+<form action="" method="post" class="col-md-8">
+{% csrf_token %}
+<div class="form-group">
+<label for="bookitem_id">Book ID</label>
+<input type="number" class="form-control" name="id" id="bookitem_id">
+</div>
+<button type="submit" class="btn btn-primary">借阅</button>
+</form>
 </div>
 </div>
 {% endblock mainbody %}
