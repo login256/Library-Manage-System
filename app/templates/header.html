@@ -2,7 +2,7 @@
   <div class="container">
 
     <!-- 导航栏商标 -->
-    <a class="navbar-brand" href="#">图书馆</a>
+    <a class="navbar-brand" href="/">LMS</a>
 
     <!-- 导航入口 -->
     <div>
@@ -19,7 +19,7 @@
         </li>
 		{% if request.user.is_authenticated %}
         <li class="nav-item">
-        	<a class="nav-link" href="#">我的账号</a>
+        	<a class="nav-link" href="{% url 'myaccount' %}">我的账号</a>
         </li>
         <li class="nav-item">
         	<a class="nav-link" href="{% url 'logout' %}">登出</a>

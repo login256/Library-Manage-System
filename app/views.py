@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 
 from django.contrib import messages
 
@@ -12,8 +13,14 @@ from .models import *
 from .forms import *
 
 import datetime
+import decimal
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
+"""
 def login_view(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -28,6 +35,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponse("login success!")
+"""
 
 
 def register(request):
@@ -39,6 +47,10 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'register.html', context={'form': form})
+
+
+def myaccount(request):
+    return render(request, 'account.html')
 
 
 def books_index(request):
@@ -60,7 +72,10 @@ def borrow_book(request):
         if 'id' in request.POST:
             if not request.POST['id']:
                 return render(request, 'borrow.html', {'errors': ['Empyt id!']})
-            bookitem = get_object_or_404(BookItem, id=request.POST['id'])
+            try:
+                bookitem = BookItem.objects.get(id=request.POST['id'])
+            except:
+                return render(request, 'borrow.html', {'errors': ['Can\'t find this book!']})
             if bookitem.status != 0:
                 #messages.error(request, 'Book has been borrowed!')
                 return render(request, 'borrow.html', {'errors': ['Book has been borrowed!']})
@@ -79,7 +94,7 @@ def borrow_book(request):
 def return_book(request):
     if request.method == 'GET':
         borrows = request.user.borrow_set.filter(date_return__isnull=True)
-        return render(request, 'return.html',{'borrows':borrows})
+        return render(request, 'return.html', {'borrows': borrows})
     elif request.method == 'POST':
         if 'id' in request.POST and request.POST['id']:
             borrow = get_object_or_404(Borrow, id=request.POST['id'])
@@ -90,10 +105,13 @@ def return_book(request):
             if last_time > 90:
                 borrow.fee = (last_time-90)*0.5
             borrow.save()
-            borrow.bookitem.status=0
+            borrow.bookitem.status = 0
             borrow.bookitem.save()
-            request.user.arrears += borrow.fee
+            request.user.arrears += decimal.Decimal(borrow.fee)
             request.user.save()
+            if borrow.fee > 0:
+                messages.warning(
+                    request, 'You return it too late, please pay %.2f yuan.' % borrow.fee)
             messages.success(request, 'Return success!')
             return redirect(request.path)
         else:

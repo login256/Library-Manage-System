@@ -1,17 +1,48 @@
 {% extends 'base.html' %}
 {% block mainbody %}
 
-<div class="container-fluid">
+<div class="container">
     <div class="row justify-content-center">
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-8">
+    <h3>
+	<div class="row">
+	<div class="col-4">书名</div> 
+	<div class="col-4">{{ book.name }}</div>
+	</div>
+	<hr/>
+	<div class="row">
+	<div class="col-4">作者</div> 
+	<div class="col-4">{{ book.author }}</div>
+	</div>
+	<hr/>
+	<div class="row">
+	<div class="col-4">出版社</div> 
+	<div class="col-4">{{ book.publisher }}</div>
+	</div>
+	<hr/>
+	<div class="row">
+	<div class="col-4">ISBN</div> 
+	<div class="col-4">{{ book.isbn }}</div>
+	</div>
+	<hr/>
+    </h3>
+    </div>
+    </div>
+    <div class="row">
+    <h2 class="col-2">图书信息</h2>
+    </div>
+    <div class="row justify-content-center">
+		<div class="col-12">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>序号</th>
-                    <th>图书编号</th>
-                    <th>图书借出情况</th>
-                    <th>操作</th>
+                    <th scope="col">序号</th>
+                    <th scope="col">图书编号</th>
+                    <th scope="col">图书借出情况</th>
+                    <th scope="col">操作</th>
                 </tr>
+                </thead>
+                <tbody>
                 {% for bookitem in bookitems %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
@@ -28,8 +59,7 @@
                         </td>
                     </tr>
                 {% endfor %}
-
-                </thead>
+                </tbody>
             </table>
 
         </div>

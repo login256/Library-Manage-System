@@ -1,25 +1,16 @@
 {% extends 'base.html' %}
 {% block mainbody %}
-<div class="flex-center">
+{% load crispy_forms_tags %}
         <div class="container">
-            <div class="flex-center">
-                <div class="unit-1-2 unit-1-on-mobile">
-                    <h3 class="flex-center">注册</h3>
+                    <div class="row justify-content-md-center"> 
                     <form class="form" action="{% url 'register' %}" method="post">
                         {% csrf_token %}
                         {% for field in form %}
-								{{ field.label_tag }}
-								{{ field }}
-								{{ field.errors }}
-								{% if field.help_text %}
-									{{ field.help_text|safe }}
-								{% endif %}
+								{{ field | as_crispy_field }}
 						{% endfor %}
                         <button type="submit" class="btn btn-primary btn-block">注册</button>
                     </form>
-                </div>
-            </div>
+                    </div>
         </div>
-    </div>
 {% endblock mainbody %}
     

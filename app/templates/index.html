@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block mainbody %}
+<div class="container">
+<div class="jumbotron">
+  <h1 class="display-4">欢迎使用图书借阅系统</h1>
+  <p class="lead">这是一个软件工程2020的个人作业</p>
+  <hr class="my-4">
+  <p>你可以查看图书、借阅图书或者归还图书</p>
+  <a class="btn btn-primary btn-lg" href="{% url 'books_index' %}" role="button">查看所有图书</a>
+  {% if request.user.is_authenticatedh %}
+  <a class="btn btn-primary btn-lg" href="{% url 'borrow' %}" role="button">借阅图书</a>
+  <a class="btn btn-primary btn-lg" href="{% url 'return' %}" role="button">归还图书</a>
+  {% else %}
+  <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">登陆</a>
+  <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">注册</a>
+  {% endif %}
+</div>
+</div>
+{% endblock mainbody %}
