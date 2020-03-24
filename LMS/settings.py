@@ -125,4 +125,6 @@ AUTH_USER_MODEL = 'app.User'
 
 LOGIN_URL = "/login/"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/books/"
+
+LOGOUT_REDIRECT_URL = "/login/"

@@ -11,6 +11,8 @@ from django.utils import timezone
 from .models import *
 from .forms import *
 
+import datetime
+
 
 def login_view(request):
     username = request.POST['username']
@@ -69,5 +71,30 @@ def borrow_book(request):
             borrow.save()
             messages.success(request, 'Borrow Success!')
             return redirect('/books/')
+        else:
+            raise Http404('Wrong POST!')
+
+
+@login_required
+def return_book(request):
+    if request.method == 'GET':
+        borrows = request.user.borrow_set.filter(date_return__isnull=True)
+        return render(request, 'return.html',{'borrows':borrows})
+    elif request.method == 'POST':
+        if 'id' in request.POST and request.POST['id']:
+            borrow = get_object_or_404(Borrow, id=request.POST['id'])
+            if borrow.date_return:
+                raise Http404('Book has been returned!')
+            borrow.date_return = timezone.now().date()
+            last_time = (borrow.date_return - borrow.date_borrow).days
+            if last_time > 90:
+                borrow.fee = (last_time-90)*0.5
+            borrow.save()
+            borrow.bookitem.status=0
+            borrow.bookitem.save()
+            request.user.arrears += borrow.fee
+            request.user.save()
+            messages.success(request, 'Return success!')
+            return redirect(request.path)
         else:
             raise Http404('Wrong POST!')
