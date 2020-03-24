@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block mainbody %}
+
+<!-- 定义放置文章标题的div容器 -->
+<div class="container">
+    <div class="row mt-2">
+
+        {% for book in books %}
+        <!-- 文章内容 -->
+        <div class="col-4 mb-4">
+        <!-- 卡片容器 -->
+            <div class="card h-100">
+                <!-- 标题 -->
+                <h4 class="card-header">{{ book.name }}</h4>
+                <!-- 摘要 -->
+                <div class="card-body">
+                    <p class="card-text">{{ book.author}}</p>
+                    <p class="card-text">{{ book.isbn}}</p>
+                    <p class="card-text">{{ book.publisher}}</p>
+                </div>
+                <!-- 注脚 -->
+                <div class="card-footer">
+                    <a href="{% url 'book_show' book.id%}" class="btn btn-primary">详情</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock mainbody %}

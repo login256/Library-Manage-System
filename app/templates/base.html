@@ -16,32 +16,10 @@
     </style>
   </head>
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-    <nav>
-        <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'books_index' %}">Books</li>
-        <li></li>
-        {% if request.user.is_authenticated%}
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {{ request.user.name }} <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-            <li class="divider"></li>
-            <li>
-            <a href="{%url 'logout'%}">logout</a>
-            </li>
-            </ul>
-            </li>
-        {%else%}
-        <li><a href="{%url 'login'%}">login</a></li>
-		{%endif%}
-        </ul>
-    </nav>
-    </div>
-	</header>
+  	{% include 'header.html' %}
+    {% include 'errors.html' %}
 	{% block mainbody %}
 	{% endblock %}
+    {% include 'footer.html' %}
   </body>
 </html>
