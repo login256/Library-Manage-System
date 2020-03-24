@@ -2,9 +2,10 @@
 {% block mainbody %}
 <div class="container">
 <h2>我的借阅</h2>
+<hr/>
 {% for borrow in borrows %}
-<div class="row">
-<div class="col-2">
+<div class="row align-items-center">
+<div class="col-1">
 {{forloop.counter}}
 </div>
 <div class="col-4">
@@ -13,14 +14,14 @@
 <div class="col-2">
 书本ID：{{borrow.bookitem.id}}
 </div>
-<div class="col-2">
+<div class="col-3">
 借阅时间：{{borrow.date_borrow}}
 </div>
 <div class="col-2">
 <form action="" method="post">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{borrow.id}}">
-<input type="submit" value="归还" class="btn btn-sm btn-primary">
+<input type="submit" value="归还" class="btn btn-block btn-primary">
 </form>
 </div>
 </div>
