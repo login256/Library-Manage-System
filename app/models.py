@@ -11,7 +11,7 @@ class Book(models.Model):
 
 class BookItem(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    status_choices = [(0,'Not borrowed'), (1,'Borrowed')]
+    status_choices = [(0,'未借出'), (1,'已借出')]
     status = models.IntegerField(choices=status_choices, default=0)
 
 
