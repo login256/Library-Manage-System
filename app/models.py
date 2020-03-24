@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Book(models.Model):
     name = models.CharField(max_length=128, null=True)
-    isbn = models.CharField(max_length=16, null=True)
+    isbn = models.CharField(max_length=32, null=True)
     author = models.CharField(max_length=128, null=True)
     publisher = models.CharField(max_length=128, null=True)
 
