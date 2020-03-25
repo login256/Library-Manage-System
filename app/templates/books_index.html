@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 
-<!-- 写入 base.html 中定义的 content -->
 {% block mainbody %}
 
-<!-- 定义放置文章标题的div容器 -->
 <div class="container">
+    <div class = "row justify-content-center">
+    <form class= "form-inline col-12 justify-content-center my-2 my-lg-0" action="" method="GET">
+    {% csrf_token %}
+    <input type="text" name="search" class="form-control mb-2 col-5" id="searchFormInput" placeholder="书名、作者、出版社、ISBN" aria-label="Search">
+    <div class="col-1">
+    <input type="submit" class="btn btn-outline-primary mb-2" value="搜索">
+    </from>
+    </div>
     <div class="row mt-2">
-
         {% for book in books %}
-        <!-- 文章内容 -->
         <div class="col-4 mb-4">
-        <!-- 卡片容器 -->
             <div class="card h-100">
-                <!-- 标题 -->
                 <h4 class="card-header">{{ book.name }}</h4>
-                <!-- 摘要 -->
                 <div class="card-body">
                     <p class="card-text">{{ book.author}}</p>
                     <p class="card-text">{{ book.isbn}}</p>
                     <p class="card-text">{{ book.publisher}}</p>
                 </div>
-                <!-- 注脚 -->
                 <div class="card-footer">
                     <a href="{% url 'book_show' book.id%}" class="btn btn-primary">详情</a>
                 </div>

@@ -9,6 +9,8 @@ from django.contrib import messages
 
 from django.utils import timezone
 
+from django.db.models import Q
+
 from .models import *
 from .forms import *
 
@@ -54,7 +56,18 @@ def myaccount(request):
 
 
 def books_index(request):
-    books = Book.objects.order_by("name")
+    if request.method == 'GET' and 'search' in request.GET and request.GET['search']:
+        tq = None
+        fields = Book._meta.fields
+        for field in fields:
+            curq = Q(**{field.name+'__icontains':request.GET['search']})
+            if tq is None:
+                tq = curq
+            else:
+                tq = tq | curq
+        books = Book.objects.filter(tq)
+    else:
+        books = Book.objects.order_by("name")
     return render(request, 'books_index.html', {'books': books})
 
 
