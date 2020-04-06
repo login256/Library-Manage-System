@@ -17,6 +17,7 @@ class BookItem(models.Model):
 
 class User(AbstractUser):
     student_number = models.CharField(max_length=20, null=True, verbose_name='学号')
+    full_name = models.CharField(max_length=40, null=True, verbose_name='姓名')
     arrears = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     borrowed = models.ManyToManyField(BookItem, through='Borrow')
 

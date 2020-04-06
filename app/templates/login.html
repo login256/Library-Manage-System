@@ -21,7 +21,7 @@
 <form method="post" action="">
 {% csrf_token %}
 {{form|crispy}}
-<input type="submit" class="btn btn-block btn-primary" value="login">
+<input type="submit" class="btn btn-block btn-primary" value="登陆">
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 </div>
